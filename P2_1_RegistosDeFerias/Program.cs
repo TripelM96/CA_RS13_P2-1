@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using P00_Utility;
+
 
 namespace P2_1_RegistosDeFerias
 {
@@ -12,46 +15,69 @@ namespace P2_1_RegistosDeFerias
     {
         static void Main(string[] args)
         {
-            Utility.SetUnicodeConsole();
-
-            #region Login
-            ArrayList utilizador = new ArrayList
+            try
             {
-                new Utilizador("Colaborador01", "Colab01"),
-                new Utilizador("Colaborador02", "Colab02"),
-                new Utilizador("Admin", "admin")
-            };
-            #endregion
+                Utility.SetUnicodeConsole();
 
-            #region Search Login
-            Utility.WriteTitle("Login", "", "\n\n");
-
-            Utility.WriteMessage("Nome: ");
-            string name = Console.ReadLine();
-
-            Utility.WriteMessage("Palavra-passe: ");
-            string Password = Console.ReadLine();
-
-            #endregion
-
-            #region ValidateLogin
-            foreach (Utilizador u in utilizador)
-            {
-                for (int i = 0; i <= 3; i++)        // 3 tentativas
+                #region Login
+                ArrayList utilizador = new ArrayList
                 {
-                    if (u.Name == name && u.Password == Password)
+                    new Colaborador("Colaborador01", "colab01"),
+                    new Colaborador("Colaborador02", "colab02"),
+                    new Admin("Admin", "admin")
+                };
+                
+                ManageVacations manage = new ManageVacations();
+                while (true)
+                {
+                    User utilizadorAtual = Util.GetLogin(utilizador);
+                    if(utilizadorAtual == null)
+                        break;
+
+                    string option;
+                    do
                     {
-                        //TODO: Menu principal
-                    }
-                    else  // TODO: Podemos colocar "else if" para o utilizador saber qual das propriedades está errada
-                    {
-                        Utility.WriteMessage("Nome ou palavra-passe errada. Por favor tente novamente.");
-                    }                    
+                        option = Util.MainMenu();                      
+
+                        switch (option)
+                        {
+                            case "0":
+                                Utility.WriteMessage("Voltar");
+                                break;
+                            case "1":   // Register
+                                Util.RegisterVac(utilizadorAtual, manage);
+                                break;
+                            case "2":   // List()
+                                Console.Clear();
+                                manage.List(utilizadorAtual);
+                                Utility.PauseConsole();
+                                break;
+                            case "3":   // Consulting()
+                                Util.ConsultingVac(utilizadorAtual, manage);
+                                break;
+                            case "4":   // Upadate()
+                                Util.UpdateVac(utilizadorAtual, manage);
+                                break;
+
+                            default:
+                                Utility.WriteErrorMessage("Opção inválida. Por favor tente novamente");
+                                Utility.PauseConsole();
+                                break;
+                        }
+
+                    } while (option != "0");
                 }
-                Utility.WriteErrorMessage("Esgotou as 3 tentativas");
+            }
+            catch (Exception ex)
+            {
+                Utility.WriteMessage("Aconteceu um erro.", "\n", "\n\n");
+                Utility.WriteMessage($"Error: {ex.Message}");
+                throw;
             }
 
             #endregion
+
+
         }
     }
 }

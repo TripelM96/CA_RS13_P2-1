@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace P00_Utility
 {
-    public static class Utility
+    public class Utility
     {
         public static void SetUnicodeConsole()
         {
@@ -47,6 +44,7 @@ namespace P00_Utility
             Console.ForegroundColor = ConsoleColor.White;
 
             Console.ReadKey();
+        
         }
 
         public static void TerminateConsole()
@@ -64,6 +62,14 @@ namespace P00_Utility
         {
             Console.Write($"{beginMessage}{message}{endMessage}");
         }
+        public static void WriteAproveMessage(string message, string beginMessage = "", string endMessage = "")
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+
+            Console.Write($"{beginMessage}{message}{endMessage}");
+
+            Console.ForegroundColor = ConsoleColor.White;
+        }
 
         public static void WriteErrorMessage(string message, string beginMessage = "", string endMessage = "")
         {
@@ -71,5 +77,6 @@ namespace P00_Utility
             Console.Write($"{beginMessage}{message}{endMessage}");
             Console.ForegroundColor = ConsoleColor.White;
         }
+
     }
 }
