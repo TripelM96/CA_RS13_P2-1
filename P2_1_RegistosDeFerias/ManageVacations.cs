@@ -32,37 +32,43 @@ namespace P2_1_RegistosDeFerias
             list.Add(new Vacations(user.Name, inicio, fim));
             Utility.WriteAproveMessage("Férias adicionadas com sucesso","\n","");
         }
-        internal void List(User user)
+        internal void List(User user)                           //TODO: É possível marcar ferias em 1885 + Marcar férias durante 30 anos
         {
             Utility.WriteTitle("Lista de Férias");
+
+            bool valid = false;
 
             foreach (Vacations f in list)
             {
                 if (user.PermissionManageVac(f.UserName))
                 {
                     Utility.WriteMessage(f.Format());
+                    valid = true;
                 }
             }
 
-            if (list.Count == 0)
+            if (!valid)
             {
                 Utility.WriteErrorMessage("Não existe registos para listar.","\n","");
             }
 
         }
         internal void Consulting(User user, DateTime inicio, DateTime fim)
-        {           
+        {
+            bool valid = false;
+
             foreach (Vacations f in list)
             {
                 if(user.PermissionManageVac(f.UserName) && (f.DataInicio >= inicio && f.DataFim <= fim))
                 {
-                    Utility.WriteMessage(f.Format(), "\n", "");
+                    Utility.WriteMessage(f.Format(),"\n","");
+                    valid = true;
                 }
             }
 
-            if (list.Count == 0)
+            if (!valid)
             {
-                Utility.WriteErrorMessage("Não existem registos para consultar.", "\n", "");
+                Utility.WriteErrorMessage("Não existem registos para consultar.", "\n", "\n");
             }
         }
         internal void Update(User user, int index, DateTime novoInicio, DateTime novoFim)

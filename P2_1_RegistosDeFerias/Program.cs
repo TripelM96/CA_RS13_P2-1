@@ -37,7 +37,7 @@ namespace P2_1_RegistosDeFerias
                     string option;
                     do
                     {
-                        option = Util.MainMenu();                      
+                        option = Util.MainMenu(utilizadorAtual);                      
 
                         switch (option)
                         {

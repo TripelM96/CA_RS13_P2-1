@@ -14,7 +14,7 @@ namespace P2_1_RegistosDeFerias
     internal class Util
     {
         #region Methods
-        internal static string MainMenu()
+        internal static string MainMenu(User utilizadorAtual)
         {
             string operation;
 
@@ -32,7 +32,9 @@ namespace P2_1_RegistosDeFerias
 
                 Console.Clear();
 
-                Utility.WriteTitle("Menu Principal", "", "\n\n");
+                Utility.WriteTitle("Menu Principal", "", "\n");
+                Utility.WriteMessage($"{utilizadorAtual.Name}", "", "\n\n\n");
+
 
                 for (int r = 0; r < menu.GetLength(0); r++)         // dimensão linhas: 5
                 {
